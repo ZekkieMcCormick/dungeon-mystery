@@ -56,11 +56,12 @@
     "@size-limit/preset-small-lib": "^9.0.0",
     "husky": "^8.0.3",
     "size-limit": "^9.0.0",
-    "tsdx": "^0.14.1",
+    "tsdx": "^0.13.3",
     "tslib": "^2.6.2",
     "typescript": "5.1.6"
   },
   "dependencies": {
-    "dungeon-mystery": "^1.1.2"
+    "dungeon-mystery": "^1.1.2",
+    "python": "^0.0.4"
   }
 }
