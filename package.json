@@ -19,7 +19,6 @@
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint"
@@ -60,5 +59,8 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.6.2",
     "typescript": "5.1.6"
+  },
+  "dependencies": {
+    "dungeon-mystery": "^1.1.2"
   }
 }

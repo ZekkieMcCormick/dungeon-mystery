@@ -1,3 +1,13 @@
+# AI Project (notes from Pokemon group)
+
+To create a dungeon:
+- Install node
+- Run npm install dungeon-mystery
+- Run npm install -g typescript (may be necessary)
+- Create (filename).ts file with dungeon info (examples in docs/dungeonmystery/Examples.md)
+- Compile with tsc (filename).ts
+- Run node (filename).js
+
 # dungeon-mystery
 
 [![npm](https://img.shields.io/npm/v/dungeon-mystery)](https://www.npmjs.com/package/dungeon-mystery)
