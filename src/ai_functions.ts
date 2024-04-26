@@ -1,4 +1,4 @@
-export function stringToMatrix(str: string, n: number): string[][] {
+function stringToMatrix(str: string, n: number): string[][] {
     const matrix: string[][] = [];
     const filteredStr = str.replace(/[\s\n]/g, ''); // Remove whitespace and newline characters
     
@@ -30,29 +30,40 @@ export function stringToMatrix(str: string, n: number): string[][] {
     col: number;
   }
   
-  type Matrix = string[][];
-  
   // Define the heuristic function (Manhattan distance)
   function heuristic(node: Node, goal: Node): number {
     return Math.abs(node.row - goal.row) + Math.abs(node.col - goal.col);
   }
   
   // Define the A* search algorithm
-  export function aStarSearch(matrix: Matrix): number {
+  export function aStarSearch(dungeonString: string): number {
+
+    const width = 56; //default width is 56, may pass as parameter later
+    //converts string to a matrix
+    const matrix = stringToMatrix(dungeonString, width)
+
     const rows = matrix.length;
     const cols = matrix[0].length;
+
+    const startingPositions: Node[] = [];
   
-    // Find the starting position
+    // Find the starting position, random position in a room
     let start: Node | null = null;
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
-        if (matrix[i][j] === 'P' || matrix[i][j] === 'X') {
-          if (!start || (i + j) < (start.row + start.col)) {
-            start = { row: i, col: j };
-          }
+        if (matrix[i][j] === 'X') {
+          startingPositions.push({ row: i, col: j }); //push all possible starts into list
         }
       }
     }
+    const randomIndex = Math.floor(Math.random() * startingPositions.length); //find a random one
+    start = startingPositions[randomIndex]; //set that equal to start
+
+    const position = (start.row*width+start.col)*2; //mul by 2 because there are spaces between each char
+    //Edit the string to display the start
+    const beforeDungeon: string = dungeonString.substring(0, position);
+    const afterDungeon: string = dungeonString.substring(position + 1);
+    dungeonString = beforeDungeon + 'S' + afterDungeon;
   
     // Define the goal position
     let goal: Node | null = null;
@@ -94,6 +105,9 @@ export function stringToMatrix(str: string, n: number): string[][] {
       if (matrix[currentNode.row][currentNode.col] === '=') {
         // Reconstruct the path
         const pathLength = gScores.get(currentNodeKey) || 0;
+        console.log(dungeonString);
+        console.log(`Start at: (${start.col}, ${start.row})`);
+        console.log(`Path length: ${pathLength}`);
         return pathLength;
       }
       //console.log(currentNodeKey);

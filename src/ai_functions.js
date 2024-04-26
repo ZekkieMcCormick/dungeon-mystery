@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.aStarSearch = exports.stringToMatrix = void 0;
+exports.aStarSearch = void 0;
 function stringToMatrix(str, n) {
     var matrix = [];
     var filteredStr = str.replace(/[\s\n]/g, ''); // Remove whitespace and newline characters
@@ -21,26 +21,34 @@ function stringToMatrix(str, n) {
     }
     return matrix;
 }
-exports.stringToMatrix = stringToMatrix;
 // Define the heuristic function (Manhattan distance)
 function heuristic(node, goal) {
     return Math.abs(node.row - goal.row) + Math.abs(node.col - goal.col);
 }
 // Define the A* search algorithm
-function aStarSearch(matrix) {
+function aStarSearch(dungeonString) {
+    var width = 56; //default width is 56, may pass as parameter later
+    //converts string to a matrix
+    var matrix = stringToMatrix(dungeonString, width);
     var rows = matrix.length;
     var cols = matrix[0].length;
-    // Find the starting position
+    var startingPositions = [];
+    // Find the starting position, random position in a room
     var start = null;
     for (var i = 0; i < rows; i++) {
         for (var j = 0; j < cols; j++) {
-            if (matrix[i][j] === 'P' || matrix[i][j] === 'X') {
-                if (!start || (i + j) < (start.row + start.col)) {
-                    start = { row: i, col: j };
-                }
+            if (matrix[i][j] === 'X') {
+                startingPositions.push({ row: i, col: j }); //push all possible starts into list
             }
         }
     }
+    var randomIndex = Math.floor(Math.random() * startingPositions.length); //find a random one
+    start = startingPositions[randomIndex]; //set that equal to start
+    var position = (start.row * width + start.col) * 2; //mul by 2 because there are spaces between each char
+    //Edit the string to display the start
+    var beforeDungeon = dungeonString.substring(0, position);
+    var afterDungeon = dungeonString.substring(position + 1);
+    dungeonString = beforeDungeon + 'S' + afterDungeon;
     // Define the goal position
     var goal = null;
     for (var i = 0; i < rows; i++) {
@@ -75,6 +83,9 @@ function aStarSearch(matrix) {
         if (matrix[currentNode.row][currentNode.col] === '=') {
             // Reconstruct the path
             var pathLength = gScores.get(currentNodeKey) || 0;
+            console.log(dungeonString);
+            console.log("Start at: (".concat(start.col, ", ").concat(start.row, ")"));
+            console.log("Path length: ".concat(pathLength));
             return pathLength;
         }
         //console.log(currentNodeKey);
