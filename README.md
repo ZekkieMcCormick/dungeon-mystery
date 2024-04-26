@@ -8,6 +8,10 @@ To create a dungeon:
 - Compile with `tsc (filename).ts`
 - Run `node (filename).js`
 
+General files to mess with:
+- ai_functions.ts : contains A* function
+- test.ts : main place for messing with code  
+
 # dungeon-mystery
 
 [![npm](https://img.shields.io/npm/v/dungeon-mystery)](https://www.npmjs.com/package/dungeon-mystery)
