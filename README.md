@@ -2,11 +2,15 @@
 
 To create a dungeon:
 - Install node
-- Run npm install dungeon-mystery
-- Run npm install -g typescript (may be necessary)
-- Create (filename).ts file with dungeon info (examples in docs/dungeonmystery/Examples.md)
-- Compile with tsc (filename).ts
-- Run node (filename).js
+- Run `npm install dungeon-mystery`
+- Run `npm install -g typescript` (may be necessary)
+- Create `(filename).ts` file with dungeon info (examples in docs/dungeonmystery/Examples.md)
+- Compile with `tsc (filename).ts`
+- Run `node (filename).js`
+
+General files to mess with:
+- ai_functions.ts : contains A* function
+- test.ts : main place for messing with code  
 
 # dungeon-mystery
 
