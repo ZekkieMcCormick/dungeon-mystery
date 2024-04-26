@@ -53,64 +53,69 @@ function aStarSearch(matrix) {
     }
     if (!start || !goal) {
         // Invalid matrix, no start or goal found
-        return -1;
+        throw new Error('Invalid matrix: No start or goal found');
     }
+    //console.log(goal);
+    //console.log(start);
     // Initialize the open and closed lists
     var openList = [];
     var closedList = new Set();
     // Create a priority queue and add the starting node
-    openList.push(start);
+    var fScores = new Map();
     var gScores = new Map();
+    openList.push(start);
     gScores.set("".concat(start.row, ",").concat(start.col), 0);
+    fScores.set("".concat(start.row, ",").concat(start.col), heuristic(start, goal));
     // Run the A* search
     while (openList.length > 0) {
-        openList.sort(function (a, b) {
-            var fScoreA = (gScores.get("".concat(a.row, ",").concat(a.col)) || 0) + heuristic(a, goal);
-            var fScoreB = (gScores.get("".concat(b.row, ",").concat(b.col)) || 0) + heuristic(b, goal);
-            return fScoreA - fScoreB;
-        });
+        openList.sort(function (a, b) { return (fScores.get("".concat(a.row, ",").concat(a.col)) || 0) - (fScores.get("".concat(b.row, ",").concat(b.col)) || 0); });
         var currentNode = openList.shift();
+        var currentNodeKey = "".concat(currentNode.row, ",").concat(currentNode.col);
         // Check if the goal is reached
         if (matrix[currentNode.row][currentNode.col] === '=') {
             // Reconstruct the path
-            var pathLength = gScores.get("".concat(currentNode.row, ",").concat(currentNode.col)) || 0;
+            var pathLength = gScores.get(currentNodeKey) || 0;
             return pathLength;
         }
-        var currentNodeKey = "".concat(currentNode.row, ",").concat(currentNode.col);
+        //console.log(currentNodeKey);
         closedList.add(currentNodeKey);
         // Generate the neighboring nodes
-        var neighbors = [];
-        for (var i = -1; i <= 1; i++) {
-            for (var j = -1; j <= 1; j++) {
-                if (i === 0 && j === 0)
-                    continue;
-                var newRow = currentNode.row + i;
-                var newCol = currentNode.col + j;
-                if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
-                    if (matrix[newRow][newCol] === 'P' || matrix[newRow][newCol] === 'X') {
-                        neighbors.push({ row: newRow, col: newCol });
+        var directions = [
+            { row: -1, col: 0 }, // Up
+            { row: 1, col: 0 }, // Down
+            { row: 0, col: -1 }, // Left
+            { row: 0, col: 1 }, // Right
+        ];
+        var _loop_1 = function (direction) {
+            var newRow = currentNode.row + direction.row;
+            var newCol = currentNode.col + direction.col;
+            if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+                if (matrix[newRow][newCol] === 'P' || matrix[newRow][newCol] === 'X' || matrix[newRow][newCol] === '=') {
+                    var neighbor_1 = { row: newRow, col: newCol };
+                    var neighborKey = "".concat(newRow, ",").concat(newCol);
+                    if (closedList.has(neighborKey))
+                        return "continue";
+                    // Calculate the g score
+                    var gScore = (gScores.get(currentNodeKey) || 0) + 1;
+                    if (!gScores.has(neighborKey) || gScore < (gScores.get(neighborKey) || 0)) {
+                        // Update the g score and f score
+                        gScores.set(neighborKey, gScore);
+                        var fScore = gScore + heuristic(neighbor_1, goal);
+                        fScores.set(neighborKey, fScore);
+                        // Add the neighbor to the open list if it's not already there
+                        if (!openList.some(function (node) { return node.row === neighbor_1.row && node.col === neighbor_1.col; })) {
+                            openList.push(neighbor_1);
+                        }
                     }
                 }
             }
-        }
-        // Process each neighboring node
-        for (var _i = 0, neighbors_1 = neighbors; _i < neighbors_1.length; _i++) {
-            var neighbor = neighbors_1[_i];
-            var neighborKey = "".concat(neighbor.row, ",").concat(neighbor.col);
-            if (closedList.has(neighborKey))
-                continue;
-            // Calculate the g score
-            var gScore = (gScores.get(currentNodeKey) || 0) + 1;
-            if (!gScores.has(neighborKey) || gScore < (gScores.get(neighborKey) || 0)) {
-                // Update the g score and f score
-                gScores.set(neighborKey, gScore);
-                var fScore = gScore + heuristic(neighbor, goal);
-                // Add the neighbor to the open list
-                openList.push(neighbor);
-            }
+        };
+        for (var _i = 0, directions_1 = directions; _i < directions_1.length; _i++) {
+            var direction = directions_1[_i];
+            _loop_1(direction);
         }
     }
     // Goal not found
-    return -1;
+    throw new Error('No path found to the goal');
 }
 exports.aStarSearch = aStarSearch;
