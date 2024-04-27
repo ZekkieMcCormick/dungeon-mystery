@@ -35,6 +35,8 @@ def swapMutate(genome, mutationRate):
         Mutation is done by swapping two indices.
         Use util.flipCoin to see if mutation occurs, and if it does,
         swap between two distinct randomly chosen indices.
+
+        WILL NOT WORK WITH DUNGEONS
     """
     #print("original genome: ",genome)
 
@@ -65,18 +67,12 @@ def realMutate(genome, mutationRate, sigma = 1.0):
     """
 
     newGenome = genome.copy()
-    extraGenome = genome.copy()
-    count = 0
     for gene in newGenome:
         if util.flipCoin(mutationRate):
             #print("flipcoin true, gene=",gene)
-            gene = random.gauss(gene, sigma)
-            extraGenome[count] = gene
-            #print("gene now:",gene)
-        count+=1
-    #print(extraGenome)
-    #print("original genome: ",genome, "new genome", newGenome)
-    return extraGenome
+            newGenome[gene] = random.gauss(newGenome[gene], sigma)
+
+    return newGenome
     
 #Question 3
 def tournamentSelection(performanceGenomePairs):
@@ -113,12 +109,9 @@ def crossover(mother, father):
         Be sure you do not modify the mother or father genomes.
     """
     newGenome = mother.copy()
-    count = 0
     for gene in newGenome:
         if util.flipCoin(0.5):
-            gene = father[count]
-            newGenome[count] = gene
-        count+=1
+            newGenome[gene] = father[gene]
     #print("new genome", newGenome)
     return newGenome
     

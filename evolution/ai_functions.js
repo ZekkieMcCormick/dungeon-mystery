@@ -129,6 +129,7 @@ function aStarSearch(dungeonString, display) {
         }
     }
     // Goal not found
+    return 0;
     throw new Error('No path found to the goal');
 }
 exports.aStarSearch = aStarSearch;

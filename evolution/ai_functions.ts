@@ -154,5 +154,6 @@ function stringToMatrix(str: string, n: number): string[][] {
     }
   
     // Goal not found
+    return 0;
     throw new Error('No path found to the goal');
   }

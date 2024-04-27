@@ -44,6 +44,7 @@ def evolution(args):
 
     # Get initial population
     population = initialPopulation(populationSize, magnitude)
+    print("Generated initial pop")
     # Evolve for specified number of generations
     for g in range(generations):
         if commonEvolution.output: print("Starting generation", g)
@@ -94,7 +95,7 @@ def initialPopulation(populationSize, magnitude):
     return population
 
 def randomValue(default, magnitude):
-    return default + random.choice(-magnitude*default, magnitude*default) #multiply by default values to replicate scale
+    return default + random.uniform(-magnitude*default, magnitude*default) #multiply by default values to replicate scale
         
 def postEvaluations(args, population):
     """
@@ -150,7 +151,7 @@ def main():
     # Argument parser
     parser = argparse.ArgumentParser(description='Script description')
     # Population flag
-    parser.add_argument('-p', action='store_true', default=50, help='Population Size')
+    parser.add_argument('-p', action='store_true', default=10, help='Population Size')
     # Generations flag
     parser.add_argument('-g', action='store_true', default=10, help='Generation Number')
     # Mutation flag
@@ -172,6 +173,7 @@ def main():
     args['trials'] = command_parameters.t
 
     commonEvolution.mutate = commonEvolution.realMutate
+    print("Starting evolution")
     population = evolution(args) #Call evolution to start
     return postEvaluations(args, population) #Returns list of champion genomes
 

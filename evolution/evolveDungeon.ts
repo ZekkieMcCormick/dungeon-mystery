@@ -33,5 +33,6 @@ function generateDungeonWithParameters(args: string) : number {
     const dungeon_map = GenerateDungeon(floor_props, dungeon, generation_constants, advanced_generation_settings);
 
 // Executing the A* search algorithm on the dungeon string to find a path
+    console.log(CreateMapString(dungeon_map));
     return aStarSearch(CreateMapString(dungeon_map), visible);
 }
