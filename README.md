@@ -33,7 +33,7 @@ Files added and adapted from previous projects:
 - evolution.py : high-level evolution functions to evolve agents for a given problem
 
 Files added and NOT adapted from previous projects:
-- util.py - contains utility functions used in commonEvolution.py
+- util.py : contains utility functions used in commonEvolution.py
 
 # dungeon-mystery
 
