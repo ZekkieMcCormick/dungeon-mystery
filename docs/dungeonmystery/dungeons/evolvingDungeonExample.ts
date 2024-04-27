@@ -9,10 +9,13 @@
 
 // Importing necessary modules from external sources
 import { GenerateDungeon, Dungeon, FloorProperties, CreateMapString } from 'dungeon-mystery';
-import { aStarSearch } from 'C:/Coding/dungeon-mystery/src/ai_functions';
+import { aStarSearch } from 'C:/Coding/dungeon-mystery/src/ai_functions'; //MAKE THIS NOT ABSOLUTE
+import { callPythonScript } from 'C:/Coding/dungeon-mystery/src/evolution/call_python'; //MAKE THIS NOT ABSOLUTE
 
 // Generating a dungeon map using functions from "dungeon-mystery" module
 const dungeon_map = GenerateDungeon(new FloorProperties(), new Dungeon());
 
 // Executing the A* search algorithm on the dungeon string to find a path
 const pathLength = aStarSearch(CreateMapString(dungeon_map));
+
+callPythonScript('evolution.py');
