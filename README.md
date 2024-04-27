@@ -18,8 +18,9 @@ To evolve a dungeon:
 - cd into evolution folder
     - Run `cd evolution`
 - Run `python evolution.py`
-    - Flags can be set: `python evolution.py -p POPULATION_SIZE -g GENERATION_NUMBER -m MUTATION_RATE -c CROSSOVER_RATE -t TRIAL_NUMBER`
+    - Flags can be set: `python evolution.py -p POPULATION_SIZE -g GENERATION_NUMBER -mu MUTATION_RATE -c CROSSOVER_RATE -t TRIAL_NUMBER -ma MAGNITUDE`
     - The trial number is the amount of times dungeons of a single genome are run and averaged in order to determine fitness score.
+    - Magnitude is the amount the initial population is randomized by.
 
 Files created:
 - ai_functions.ts/js : contains A* function and other useful functions for interpreting dungeon output
