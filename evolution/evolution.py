@@ -40,9 +40,10 @@ def evolution(args):
     generations = args['generations']
     mutationRate = args['mutationRate']
     crossoverRate = args['crossoverRate']
+    magnitude = args['magnitude']
 
     # Get initial population
-    population = initialPopulation(populationSize)
+    population = initialPopulation(populationSize, magnitude)
     # Evolve for specified number of generations
     for g in range(generations):
         if commonEvolution.output: print("Starting generation", g)
@@ -58,7 +59,7 @@ def evolution(args):
 
     return population
 
-def initialPopulation(populationSize):
+def initialPopulation(populationSize, magnitude):
     """
         Fill starting population with specified number of
         randomized genomes
@@ -67,8 +68,8 @@ def initialPopulation(populationSize):
     for i in range(populationSize):
         genome = {}
         genome["visible"] = 0
-        population.append(0) #RANDOM MAP PARAMETERS ENTERED INTO GENOME HERE
-        #APPENDING INDIVIDUAL DICTIONARIES, CORRELATING TO MAP ARGUMENTS
+        #ADD ALL INITIAL DICT ENTRIES (SEEN IN evolveDungeon.ts)
+        #ADD OR SUBTRACT (coin flip?) RANDOM NUM BETWEEN 0 AND MAGNITUDE FOR EACH VALUE
     
     return population
         
@@ -130,18 +131,21 @@ def main():
     # Generations flag
     parser.add_argument('-g', action='store_true', default=10, help='Generation Number')
     # Mutation flag
-    parser.add_argument('-m', action='store_true', default=0.5, help='Mutation Rate')
+    parser.add_argument('-mu', action='store_true', default=0.5, help='Mutation Rate')
     # Crossover flag
     parser.add_argument('-c', action='store_true', default=0.5, help='Crossover Rate')
     # Trials flag
     parser.add_argument('-t', action='store_true', default=10, help='Trials Number')
+    # Magnitude flag
+    parser.add_argument('-ma', action='store_true', default=1, help='Magnitude for Initial Pop')
     # Parse the command-line arguments
     command_parameters = parser.parse_args()
 
     args['populationSize'] = command_parameters.p
     args['generations'] = command_parameters.g
-    args['mutationRate'] = command_parameters.m
+    args['mutationRate'] = command_parameters.mu
     args['crossoverRate'] = command_parameters.c
+    args['magnitude'] = command_parameters.ma
     args['trials'] = command_parameters.t
 
     commonEvolution.mutate = commonEvolution.realMutate

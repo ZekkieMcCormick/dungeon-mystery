@@ -10,9 +10,9 @@ function generateDungeonWithParameters(args: string) : number {
     if(genome["visible"] > 0){
         visible = true;
     }
-    
+
     let floor_props = new FloorProperties();
-    floor_props.room_density = 6;
+    floor_props.room_density = 6; //genome["room_density"]
     floor_props.trap_density = 5;
     floor_props.floor_connectivity = 15;
     floor_props.num_extra_hallways = 10;
