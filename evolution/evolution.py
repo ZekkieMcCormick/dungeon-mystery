@@ -72,7 +72,6 @@ def initialPopulation(populationSize, magnitude):
         secondary_terrain_density
         secondary_structures_budget
         maze_room_chance
-
         merge_rooms_chance
 
     """
@@ -80,51 +79,22 @@ def initialPopulation(populationSize, magnitude):
     for i in range(populationSize):
         genome = {}
         genome["visible"] = 0
+        genome["room_density"] = randomValue(6,magnitude) #first number comes from default example dungeon
+        genome["trap_density"] = randomValue(5,magnitude)
+        genome["floor_connectivity"] = randomValue(15,magnitude)
+        genome["num_extra_hallways"] = randomValue(10,magnitude)
+        genome["monster_house_chance"] = randomValue(20,magnitude)
+        genome["secondary_terrain_density"] = randomValue(5,magnitude)
+        genome["secondary_structures_budget"] = randomValue(5,magnitude)
+        genome["maze_room_chance"] = randomValue(100,magnitude)
+        genome["merge_rooms_chance"] = randomValue(50,magnitude)
 
-        genome["room_density"] = 6
-        genome["trap_density"] = 5
-        genome["floor_connectivity"] = 15
-        genome["num_extra_hallways"] = 10
-        genome["monster_house_chance"] = 20
-        genome["secondary_terrain_density"] = 5
-        genome["secondary_structures_budget"] = 5
-        genome["maze_room_chance"] = 100
-
-        genome["merge_rooms_chance"] = 50
-
-        #magnitude = 100
-
-        if random.choice([1, 0]) == 1:
-            genome["room_density"] = abs(genome["room_density"] - random.randrange(0, magnitude))
-            genome["trap_density"] = abs(genome["trap_density"] - random.randrange(0, magnitude))
-            genome["floor_connectivity"] = abs(genome["floor_connectivity"] - random.randrange(0, magnitude))
-            genome["num_extra_hallways"] = abs(genome["num_extra_hallways"] - random.randrange(0, magnitude))
-            genome["monster_house_chance"] = abs(genome["monster_house_chance"] - random.randrange(0, magnitude))
-            genome["secondary_terrain_density"] = abs(genome["secondary_terrain_density"] - random.randrange(0, magnitude))
-            genome["secondary_structures_budget"] = abs(genome["secondary_structures_budget"] - random.randrange(0, magnitude))
-            genome["maze_room_chance"] = abs(genome["maze_room_chance"] - random.randrange(0, magnitude))
-
-            genome["merge_rooms_chance"] = abs(genome["merge_rooms_chance"] - random.randrange(0, magnitude))
-
-        else:
-            genome["room_density"] = (genome["room_density"] + random.randrange(0, magnitude)) * 1
-            genome["trap_density"] = (genome["trap_density"] + random.randrange(0, magnitude)) * 1
-            genome["floor_connectivity"] = (genome["floor_connectivity"] + random.randrange(0, magnitude)) * 1
-            genome["num_extra_hallways"] = (genome["num_extra_hallways"] + random.randrange(0, magnitude)) * 1
-            genome["monster_house_chance"] = (genome["monster_house_chance"] + random.randrange(0, magnitude)) * 1
-            genome["secondary_terrain_density"] = (genome["secondary_terrain_density"] + random.randrange(0, magnitude)) * 1
-            genome["secondary_structures_budget"] = (genome["secondary_structures_budget"] + random.randrange(0, magnitude)) * 1
-            genome["maze_room_chance"] = (genome["maze_room_chance"] + random.randrange(0, magnitude)) * 1
-
-            genome["merge_rooms_chance"] = (genome["merge_rooms_chance"] + random.randrange(0, magnitude)) * 1
-
-        #print(genome["room_density"])
         population.append(genome)
-
-        #ADD ALL INITIAL DICT ENTRIES (SEEN IN evolveDungeon.ts)
-        #ADD OR SUBTRACT (coin flip?) RANDOM NUM BETWEEN 0 AND MAGNITUDE FOR EACH VALUE
-    print(population)
+    
     return population
+
+def randomValue(default, magnitude):
+    return default + random.choice(-magnitude*default, magnitude*default) #multiply by default values to replicate scale
         
 def postEvaluations(args, population):
     """
