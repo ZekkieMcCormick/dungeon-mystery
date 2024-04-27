@@ -173,17 +173,5 @@ def nextGeneration(performanceGenomePairs,mutationRate,crossoverRate, elitism = 
         newGenome.append(getOffspring(performanceGenomePairs, mutationRate, crossoverRate))
 
     return newGenome
-    
-def dropEvolutionArguments(args):
-    """
-        Remove commandline parameters from the args that
-        bother the game-running code. Should only be done after
-        these values are extracted and saved in variables.
-    """
-    if 'crossoverRate' in args: args.pop('crossoverRate', None)
-    if 'mutationRate' in args: args.pop('mutationRate', None)
-    if 'populationSize' in args: args.pop('populationSize', None)
-    if 'generations' in args: args.pop('generations', None)
-    if 'postEvals' in args: args.pop('postEvals', None)
 
 mutate = realMutate            

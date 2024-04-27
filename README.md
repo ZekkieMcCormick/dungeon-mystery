@@ -1,4 +1,8 @@
 # AI Project (notes from Pokemon group)
+Added dependencies:
+- Python
+- ExecJS
+    -Run `pip install PyExecJS`
 
 To create a dungeon:
 - Install node
@@ -8,9 +12,28 @@ To create a dungeon:
 - Compile with `tsc (filename).ts`
 - Run `node (filename).js`
 
-General files to mess with:
-- ai_functions.ts : contains A* function
-- test.ts : main place for messing with code  
+To evolve a dungeon:
+- Follow steps 1-3 above
+- Install added dependencies (above)
+- cd into evolution folder
+    - Run `cd evolution`
+- Run `python evolution.py`
+    - Flags can be set: `python evolution.py -p POPULATION_SIZE -g GENERATION_NUMBER -m MUTATION_RATE -c CROSSOVER_RATE -t TRIAL_NUMBER`
+    - The trial number is the amount of times dungeons of a single genome are run and averaged in order to determine fitness score.
+
+Files created:
+- ai_functions.ts/js : contains A* function and other useful functions for interpreting dungeon output
+- aStarTest.ts/js : generates a single plain dungeon and runs A* search on it, displaying output
+- call_python.js : calls a python file from javascript
+- call_javascript.py : calls a javascript file from python
+- evolveDungeon.ts/js : takes a dictionary of arguments to appropriately generate a given dungeon and return its fitness function, as defined by A* search
+
+Files added and adapted from previous projects:
+- commonEvolution.py : low-level evolution functions that perform small tasks related to evolution
+- evolution.py : high-level evolution functions to evolve agents for a given problem
+
+Files added and NOT adapted from previous projects:
+- util.py - contains utility functions used in commonEvolution.py
 
 # dungeon-mystery
 

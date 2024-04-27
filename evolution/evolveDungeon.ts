@@ -3,9 +3,9 @@ import { aStarSearch } from 'C:/Coding/dungeon-mystery/src/ai_functions'; //MAKE
 import { callPythonScript } from 'C:/Coding/dungeon-mystery/evolution/call_python'; //MAKE THIS NOT ABSOLUTE
 import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, AdvancedGenerationSettings, CreateMapString, FloorLayout } from 'dungeon-mystery'
 
-function generateDungeonWithParameters(visual: boolean) : number {
+function generateDungeonWithParameters(args: string) : number {
+    args = JSON.parse(args); //convert the dict-string back into a dictionary
     let floor_props = new FloorProperties();
-    floor_props.layout = FloorLayout.LAYOUT_LARGE;
     floor_props.room_density = 6;
     floor_props.trap_density = 5;
     floor_props.floor_connectivity = 15;
@@ -27,5 +27,5 @@ function generateDungeonWithParameters(visual: boolean) : number {
     const dungeon_map = GenerateDungeon(floor_props, dungeon, generation_constants, advanced_generation_settings);
 
 // Executing the A* search algorithm on the dungeon string to find a path
-    return aStarSearch(CreateMapString(dungeon_map), visual); //true signifies display is wanted
+    return aStarSearch(CreateMapString(dungeon_map), true); //true signifies display is wanted
 }

@@ -23,7 +23,9 @@ import util
 import random
 import math
 import commonEvolution
-import call_typescript
+import call_javascript
+import argparse
+import json
     
 def evolution(args):
     """
@@ -38,8 +40,6 @@ def evolution(args):
     generations = args['generations']
     mutationRate = args['mutationRate']
     crossoverRate = args['crossoverRate']
-    # Some functions are bothered by the presence of these extra parameters
-    commonEvolution.dropEvolutionArguments(args)
 
     # Get initial population
     population = initialPopulation(populationSize)
@@ -80,7 +80,7 @@ def postEvaluations(args, population):
     finalChampionFitness = max([f for (g,f) in finalPerformanceGenomePairs])
     championGenomes = [g for (g,f) in finalPerformanceGenomePairs if f == finalChampionFitness]
     if commonEvolution.output: print("Final Champion Training Fitness",finalChampionFitness)
-
+    #CALL A* ON ALL CHAMPIONS AND DISPLAY VISUALS
     return championGenomes # Return all champion genomes
         
 def evaluatePopulation(population, **args):
@@ -103,23 +103,44 @@ def evaluateGenome(**args):
         the sake of evaluation. The average game score across
         these games is returned as the fitness of the genome.
     """
-    for p in args['populationSize']:
-        #RUN TYPESCRIPT AND RETURN A* LENGTH INTO LIST OF SCORES
-        scores = [0]
+    scores = []
+    while len(scores) < args['trials']: #runs number of provided trials on single genome
+        arg_json = json.dumps(args) #converts dictionary to passable string
+        scores.append(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', arg_json)) #calls JS file with a*
     # Calculate fitness as average score
-    fitness = sum(scores) / len(scores)
+    fitness = sum(scores) / args['trials']
     return fitness
 
 def main():    
     """
         Set up and then launch evolution.
     """
-    args = [] # MAKE A HARD CODED LIST OF ARGS
+    args = {}
+    # Parsing code originates as AI generated
+    # Argument parser
+    parser = argparse.ArgumentParser(description='Script description')
+    # Population flag
+    parser.add_argument('-p', action='store_true', default=50, help='Population Size')
+    # Generations flag
+    parser.add_argument('-g', action='store_true', default=10, help='Generation Number')
+    # Mutation flag
+    parser.add_argument('-m', action='store_true', default=0.5, help='Mutation Rate')
+    # Crossover flag
+    parser.add_argument('-c', action='store_true', default=0.5, help='Crossover Rate')
+    # Trials flag
+    parser.add_argument('-t', action='store_true', default=10, help='Trials Number')
+    # Parse the command-line arguments
+    command_parameters = parser.parse_args()
+
+    args['populationSize'] = command_parameters.p
+    args['generations'] = command_parameters.g
+    args['mutationRate'] = command_parameters.m
+    args['crossoverRate'] = command_parameters.c
+    args['trials'] = command_parameters.t
+
     commonEvolution.mutate = commonEvolution.realMutate
-   
-    postEvals = args['postEvals'] # Save here, because it is removed when dropEvolutionArguments is called in evolution
-    population = evolution(args)
-    return postEvaluations(args, population)
+    population = evolution(args) #Call evolution to start
+    return postEvaluations(args, population) #Returns list of champion genomes
 
 if __name__ == '__main__':
     print(main())
