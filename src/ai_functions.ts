@@ -36,7 +36,7 @@ function stringToMatrix(str: string, n: number): string[][] {
   }
   
   // Define the A* search algorithm
-  export function aStarSearch(dungeonString: string): number {
+  export function aStarSearch(dungeonString: string, display: boolean): number {
 
     const width = 56; //default width is 56, may pass as parameter later
     //converts string to a matrix
@@ -105,9 +105,11 @@ function stringToMatrix(str: string, n: number): string[][] {
       if (matrix[currentNode.row][currentNode.col] === '=') {
         // Reconstruct the path
         const pathLength = gScores.get(currentNodeKey) || 0;
-        console.log(dungeonString);
-        console.log(`Start at: (${start.col}, ${start.row})`);
-        console.log(`Path length: ${pathLength}`);
+        if(display){
+          console.log(dungeonString);
+          console.log(`Start at: (${start.col}, ${start.row})`);
+          console.log(`Path length: ${pathLength}`);
+        }
         return pathLength;
       }
       //console.log(currentNodeKey);

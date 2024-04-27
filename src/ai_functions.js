@@ -26,7 +26,7 @@ function heuristic(node, goal) {
     return Math.abs(node.row - goal.row) + Math.abs(node.col - goal.col);
 }
 // Define the A* search algorithm
-function aStarSearch(dungeonString) {
+function aStarSearch(dungeonString, display) {
     var width = 56; //default width is 56, may pass as parameter later
     //converts string to a matrix
     var matrix = stringToMatrix(dungeonString, width);
@@ -83,9 +83,11 @@ function aStarSearch(dungeonString) {
         if (matrix[currentNode.row][currentNode.col] === '=') {
             // Reconstruct the path
             var pathLength = gScores.get(currentNodeKey) || 0;
-            console.log(dungeonString);
-            console.log("Start at: (".concat(start.col, ", ").concat(start.row, ")"));
-            console.log("Path length: ".concat(pathLength));
+            if (display) {
+                console.log(dungeonString);
+                console.log("Start at: (".concat(start.col, ", ").concat(start.row, ")"));
+                console.log("Path length: ".concat(pathLength));
+            }
             return pathLength;
         }
         //console.log(currentNodeKey);
