@@ -23,8 +23,9 @@ import util
 import random
 import math
 import commonEvolution
+import call_typescript
     
-def evolution(args, gameRunner, agentVessels, featureKeys):
+def evolution(args):
     """
         Basic framework for evolution.
         1) Initialize the population
@@ -41,12 +42,12 @@ def evolution(args, gameRunner, agentVessels, featureKeys):
     commonEvolution.dropEvolutionArguments(args)
 
     # Get initial population
-    population = initialPopulation(agentVessels, populationSize, featureKeys)
+    population = initialPopulation(populationSize)
     # Evolve for specified number of generations
     for g in range(generations):
         if commonEvolution.output: print("Starting generation", g)
         # Evaluate all genomes
-        performanceGenomePairs = evaluatePopulation(gameRunner,agentVessels,population, **args)
+        performanceGenomePairs = evaluatePopulation(population, **args)
         # Display fitness information
         justFitnesses = [f for (g,f) in performanceGenomePairs]
         championFitness = max(justFitnesses)
@@ -57,27 +58,24 @@ def evolution(args, gameRunner, agentVessels, featureKeys):
 
     return population
 
-def initialPopulation(agentVessels, populationSize, featureKeys, magnitude = 1.0):
+def initialPopulation(populationSize):
     """
         Fill starting population with specified number of
         randomized genomes
     """
-    for pm in agentVessels:
-        pm.setFeatureKeys(featureKeys)
-    # Last agent will be left in pm for use in next loop
     population = [] 
     for i in range(populationSize):
-        population.append(pm.randomGenome(magnitude))
+        population.append(0) #RANDOM MAP PARAMETERS ENTERED INTO GENOME HERE
     
     return population
         
-def postEvaluations(args, postEvals, gameRunner, agentVessels, population):
+def postEvaluations(args, population):
     """
         Called after evolution to determine the final champion(s),
         whose behavior is then displayed.
     """
     # Evaluate the final population
-    finalPerformanceGenomePairs = evaluatePopulation(gameRunner,agentVessels,population, **args)
+    finalPerformanceGenomePairs = evaluatePopulation(population, **args)
     # Display fitness information from final generation
     finalChampionFitness = max([f for (g,f) in finalPerformanceGenomePairs])
     championGenomes = [g for (g,f) in finalPerformanceGenomePairs if f == finalChampionFitness]
@@ -85,56 +83,43 @@ def postEvaluations(args, postEvals, gameRunner, agentVessels, population):
 
     return championGenomes # Return all champion genomes
         
-def evaluatePopulation(gameRunner, agentVessels, population, **args):
+def evaluatePopulation(population, **args):
     """
         Evaluate each genome in the population and return
         a list of score/genome tuples.
     """
     performanceGenomePairs = []
     for x in range(len(population)):
-        fitness = evaluateGenome(gameRunner, agentVessels, population[x], **args)
+        fitness = evaluateGenome(**args)
         if commonEvolution.output: print("\tGenome",x,":",fitness)
         performanceGenomePairs.append((population[x],fitness))
     
     return performanceGenomePairs
     
-def evaluateGenome(gameRunner, agentVessels, genome, silent = True, **args):
+def evaluateGenome(**args):
     """
         Update the agent vessels to use the genome to control their
         behavior, then subject the Agents to several games for
         the sake of evaluation. The average game score across
         these games is returned as the fitness of the genome.
     """
-    if commonEvolution.SHOW_ALL: silent = False
-    if not commonEvolution.output: silent = True
-    # Replace genome in agents
-    for pm in agentVessels: 
-        pm.setGenome(genome)
-    # Evaluate in game(s)
-    if 'pacman' in args or 'agents' in args: # For both Pacman variants
-        args['numTraining'] = args['numGames']+1 if silent else 0 # Evolving/Training or Post evaluation
-    else: # 8 queens
-        args['silent'] = silent
-    scores = gameRunner.runGames( **args ) 
+    for p in args['populationSize']:
+        #RUN TYPESCRIPT AND RETURN A* LENGTH INTO LIST OF SCORES
+        scores = [0]
     # Calculate fitness as average score
     fitness = sum(scores) / len(scores)
     return fitness
 
 def main():    
     """
-        Set up and then launch evolution. 
-        Champion performance is shown at end.
+        Set up and then launch evolution.
     """
-    gameRunner = pacman
-    args = gameRunner.readCommand( sys.argv[2:] ) # MAKE A HARD CODED LIST OF ARGS
-    tempRules = gameRunner.ClassicGameRules()
-    agentVessels = [args['pacman']]
-    featureKeys = commonEvolution.getPacmanFeatureKeys(args,tempRules,agentVessels[0])
+    args = [] # MAKE A HARD CODED LIST OF ARGS
     commonEvolution.mutate = commonEvolution.realMutate
    
     postEvals = args['postEvals'] # Save here, because it is removed when dropEvolutionArguments is called in evolution
-    population = evolution(args, gameRunner, agentVessels, featureKeys)
-    return postEvaluations(args, postEvals, gameRunner, agentVessels, population)
+    population = evolution(args)
+    return postEvaluations(args, population)
 
 if __name__ == '__main__':
     print(main())

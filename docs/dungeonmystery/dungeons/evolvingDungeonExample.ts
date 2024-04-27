@@ -18,4 +18,4 @@ const dungeon_map = GenerateDungeon(new FloorProperties(), new Dungeon());
 // Executing the A* search algorithm on the dungeon string to find a path
 const pathLength = aStarSearch(CreateMapString(dungeon_map));
 
-callPythonScript('evolution.py');
+//callPythonScript('evolution.py');
