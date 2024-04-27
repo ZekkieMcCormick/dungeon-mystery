@@ -1,6 +1,5 @@
 // Importing necessary modules from external sources
-import { aStarSearch } from 'C:/Coding/dungeon-mystery/src/ai_functions'; //MAKE THIS NOT ABSOLUTE
-import { callPythonScript } from 'C:/Coding/dungeon-mystery/evolution/call_python'; //MAKE THIS NOT ABSOLUTE
+import { aStarSearch } from './ai_functions'; //MAKE THIS NOT ABSOLUTE
 import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, AdvancedGenerationSettings, CreateMapString, FloorLayout } from 'dungeon-mystery'
 
 function generateDungeonWithParameters(args: string) : number {
@@ -27,5 +26,5 @@ function generateDungeonWithParameters(args: string) : number {
     const dungeon_map = GenerateDungeon(floor_props, dungeon, generation_constants, advanced_generation_settings);
 
 // Executing the A* search algorithm on the dungeon string to find a path
-    return aStarSearch(CreateMapString(dungeon_map), true); //true signifies display is wanted
+    return aStarSearch(CreateMapString(dungeon_map), args['visible']);
 }

@@ -5,7 +5,7 @@ Added dependencies:
     - Run `pip install PyExecJS`
 
 To create a dungeon:
-- Install node
+- Install node.js
 - Run `npm install dungeon-mystery`
 - Run `npm install -g typescript` (may be necessary)
 - Create `(filename).ts` file with dungeon info (examples in docs/dungeonmystery/Examples.md)

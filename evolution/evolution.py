@@ -80,7 +80,10 @@ def postEvaluations(args, population):
     finalChampionFitness = max([f for (g,f) in finalPerformanceGenomePairs])
     championGenomes = [g for (g,f) in finalPerformanceGenomePairs if f == finalChampionFitness]
     if commonEvolution.output: print("Final Champion Training Fitness",finalChampionFitness)
-    #CALL A* ON ALL CHAMPIONS AND DISPLAY VISUALS
+    for genome in championGenomes:
+        args["visible"] = True
+        arg_json = json.dumps(args) #converts dictionary to passable string
+        call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', arg_json) #calls JS file with a*
     return championGenomes # Return all champion genomes
         
 def evaluatePopulation(population, **args):
@@ -137,6 +140,7 @@ def main():
     args['mutationRate'] = command_parameters.m
     args['crossoverRate'] = command_parameters.c
     args['trials'] = command_parameters.t
+    args['visible'] = False #defaults map output to false, except for post eval
 
     commonEvolution.mutate = commonEvolution.realMutate
     population = evolution(args) #Call evolution to start
