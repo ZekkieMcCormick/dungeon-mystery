@@ -39,13 +39,14 @@ Evolution Workflow:
 - call evolution.py
     - args dict is created with command line parameters
     - passed into evolution()
-    - evolution creates an initialPopulation
+    - evolution calls initialPopulation() to generate starter genomes
         - This population is created by randomly adding or subtracting a given magnitude from default values
-    - for the number of given generations, evaluate the population by finding the fitness function of each genome
+    - for the number of given generations, evaluate the population by finding the fitness function of each genome by calling evalutatePopulation() which calls evaluateGenome()
         - This is done by calling call_javascript.py, which calls evolveDungeon.js (which is automatically created after compiling evolveDungeon.ts)
             - NOTE: This is done by passing the genome dictionary as a JSON string and reassembling it in the JS
+        - evolveDungeon.js calls aStarSearch() in ai_functions.ts, and returns the length of the shortest path from a random legal starting point which is then used as its fitness function
     - create the next generation by calling project code found in commonEvolution.py
-    - after all generations have completed, call all champions to generate dungeons and run A* on them, displaying results
+    - after all generations have completed, call all champions with postEvaluations() to generate dungeons and run A* on them, displaying results
 
 # dungeon-mystery
 
