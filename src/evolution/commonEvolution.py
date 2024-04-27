@@ -92,7 +92,6 @@ def tournamentSelection(performanceGenomePairs):
         You should use random.sample to make sure you do not
         select any duplicate genomes to be in the tournament.
     """
-    "*** YOUR CODE HERE ***"
     contendors = random.sample(performanceGenomePairs, 2)
     if contendors[0][1] > contendors[1][1]:
         return contendors[0][0]
@@ -113,7 +112,6 @@ def crossover(mother, father):
         
         Be sure you do not modify the mother or father genomes.
     """
-    "*** YOUR CODE HERE ***"
     newGenome = mother.copy()
     count = 0
     for gene in newGenome:

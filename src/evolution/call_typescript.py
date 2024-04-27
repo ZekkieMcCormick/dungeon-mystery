@@ -1,3 +1,5 @@
+#AI Generated
+
 import subprocess
 
 def call_typescript(filePath):
