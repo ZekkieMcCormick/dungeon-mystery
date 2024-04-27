@@ -65,7 +65,10 @@ def initialPopulation(populationSize):
     """
     population = [] 
     for i in range(populationSize):
+        genome = {}
+        genome["visible"] = 0
         population.append(0) #RANDOM MAP PARAMETERS ENTERED INTO GENOME HERE
+        #APPENDING INDIVIDUAL DICTIONARIES, CORRELATING TO MAP ARGUMENTS
     
     return population
         
@@ -81,9 +84,9 @@ def postEvaluations(args, population):
     championGenomes = [g for (g,f) in finalPerformanceGenomePairs if f == finalChampionFitness]
     if commonEvolution.output: print("Final Champion Training Fitness",finalChampionFitness)
     for genome in championGenomes:
-        args["visible"] = True
-        arg_json = json.dumps(args) #converts dictionary to passable string
-        call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', arg_json) #calls JS file with a*
+        genome["visible"] = 1
+        genome_json = json.dumps(genome) #converts dictionary to passable string
+        call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json) #calls JS file with a*
     return championGenomes # Return all champion genomes
         
 def evaluatePopulation(population, **args):
@@ -93,13 +96,13 @@ def evaluatePopulation(population, **args):
     """
     performanceGenomePairs = []
     for x in range(len(population)):
-        fitness = evaluateGenome(**args)
+        fitness = evaluateGenome(population[x], **args)
         if commonEvolution.output: print("\tGenome",x,":",fitness)
         performanceGenomePairs.append((population[x],fitness))
     
     return performanceGenomePairs
     
-def evaluateGenome(**args):
+def evaluateGenome(genome, **args):
     """
         Update the agent vessels to use the genome to control their
         behavior, then subject the Agents to several games for
@@ -108,8 +111,8 @@ def evaluateGenome(**args):
     """
     scores = []
     while len(scores) < args['trials']: #runs number of provided trials on single genome
-        arg_json = json.dumps(args) #converts dictionary to passable string
-        scores.append(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', arg_json)) #calls JS file with a*
+        genome_json = json.dumps(genome) #converts dictionary to passable string
+        scores.append(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json)) #calls JS file with a*
     # Calculate fitness as average score
     fitness = sum(scores) / args['trials']
     return fitness
@@ -140,7 +143,6 @@ def main():
     args['mutationRate'] = command_parameters.m
     args['crossoverRate'] = command_parameters.c
     args['trials'] = command_parameters.t
-    args['visible'] = False #defaults map output to false, except for post eval
 
     commonEvolution.mutate = commonEvolution.realMutate
     population = evolution(args) #Call evolution to start
