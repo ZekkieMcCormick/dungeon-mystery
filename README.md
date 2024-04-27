@@ -2,7 +2,7 @@
 Added dependencies:
 - Python
 - ExecJS
-    -Run `pip install PyExecJS`
+    - Run `pip install PyExecJS`
 
 To create a dungeon:
 - Install node
@@ -24,7 +24,6 @@ To evolve a dungeon:
 Files created:
 - ai_functions.ts/js : contains A* function and other useful functions for interpreting dungeon output
 - aStarTest.ts/js : generates a single plain dungeon and runs A* search on it, displaying output
-- call_python.js : calls a python file from javascript
 - call_javascript.py : calls a javascript file from python
 - evolveDungeon.ts/js : takes a dictionary of arguments to appropriately generate a given dungeon and return its fitness function, as defined by A* search
 
