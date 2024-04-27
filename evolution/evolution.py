@@ -26,6 +26,7 @@ import commonEvolution
 import call_javascript
 import argparse
 import json
+import os
     
 def evolution(args):
     """
@@ -161,7 +162,7 @@ def main():
     # Trials flag
     parser.add_argument('-t', action='store_true', default=10, help='Trials Number')
     # Magnitude flag
-    parser.add_argument('-ma', action='store_true', default=1, help='Magnitude for Initial Pop')
+    parser.add_argument('-ma', action='store_true', default=1, help='Magnitude')
     # Parse the command-line arguments
     command_parameters = parser.parse_args()
 

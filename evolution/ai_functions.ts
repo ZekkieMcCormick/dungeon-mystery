@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 function stringToMatrix(str: string, n: number): string[][] {
     const matrix: string[][] = [];
     const filteredStr = str.replace(/[\s\n]/g, ''); // Remove whitespace and newline characters
