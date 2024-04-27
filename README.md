@@ -35,6 +35,18 @@ Files added and adapted from previous projects:
 Files added and NOT adapted from previous projects:
 - util.py : contains utility functions used in commonEvolution.py
 
+Evolution Workflow:
+- call evolution.py
+    - args dict is created with command line parameters
+    - passed into evolution()
+    - evolution creates an initialPopulation
+        - This population is created by randomly adding or subtracting a given magnitude from default values
+    - for the number of given generations, evaluate the population by finding the fitness function of each genome
+        - This is done by calling call_javascript.py, which calls evolveDungeon.js (which is automatically created after compiling evolveDungeon.ts)
+            - NOTE: This is done by passing the genome dictionary as a JSON string and reassembling it in the JS
+    - create the next generation by calling project code found in commonEvolution.py
+    - after all generations have completed, call all champions to generate dungeons and run A* on them, displaying results
+
 # dungeon-mystery
 
 [![npm](https://img.shields.io/npm/v/dungeon-mystery)](https://www.npmjs.com/package/dungeon-mystery)
