@@ -2,7 +2,7 @@
 import { aStarSearch } from './ai_functions';
 import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, AdvancedGenerationSettings, CreateMapString, FloorLayout } from 'dungeon-mystery'
 
-function generateDungeonWithParameters(args: string) : number {
+function generateDungeonWithParameters(args: string) : [number,string] {
     const genome = JSON.parse(args) as { [key: string]: number }; //convert the dict-string back into a dictionary
 
     //The dict must always output a number, so the visibility boolean comes through as a number to be converted

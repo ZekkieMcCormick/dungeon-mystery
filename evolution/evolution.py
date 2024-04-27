@@ -112,8 +112,7 @@ def postEvaluations(args, population):
     for genome in championGenomes:
         genome["visible"] = 1
         genome_json = json.dumps(genome) #converts dictionary to passable string
-        call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json) #calls JS file with a*
-    return championGenomes # Return all champion genomes
+        print(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json, True)) #calls JS file with a*
         
 def evaluatePopulation(population, **args):
     """
@@ -176,7 +175,7 @@ def main():
     commonEvolution.mutate = commonEvolution.realMutate
     print("Starting evolution")
     population = evolution(args) #Call evolution to start
-    return postEvaluations(args, population) #Returns list of champion genomes
+    postEvaluations(args, population) #Returns list of champion genomes
 
 if __name__ == '__main__':
     print(main())

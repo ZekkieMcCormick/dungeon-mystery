@@ -38,7 +38,7 @@ function stringToMatrix(str: string, n: number): string[][] {
   }
   
   // Define the A* search algorithm
-  export function aStarSearch(dungeonString: string, display: boolean): number {
+  export function aStarSearch(dungeonString: string, visible: boolean): [number, string] {
 
     const width = 56; //default width is 56, may pass as parameter later
     //converts string to a matrix
@@ -107,12 +107,14 @@ function stringToMatrix(str: string, n: number): string[][] {
       if (matrix[currentNode.row][currentNode.col] === '=') {
         // Reconstruct the path
         const pathLength = gScores.get(currentNodeKey) || 0;
-        if(display){
+        
+        if(visible){
           console.log(dungeonString);
           console.log(`Start at: (${start.col}, ${start.row})`);
           console.log(`Path length: ${pathLength}`);
         }
-        return pathLength;
+
+        return [pathLength,dungeonString];
       }
       //console.log(currentNodeKey);
       closedList.add(currentNodeKey);
@@ -156,6 +158,6 @@ function stringToMatrix(str: string, n: number): string[][] {
     }
   
     // Goal not found
-    return 0;
+    return [0, dungeonString]; //Some bad dungeons won't have a path. Return zero instead of error.
     throw new Error('No path found to the goal');
   }

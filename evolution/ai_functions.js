@@ -26,7 +26,7 @@ function heuristic(node, goal) {
     return Math.abs(node.row - goal.row) + Math.abs(node.col - goal.col);
 }
 // Define the A* search algorithm
-function aStarSearch(dungeonString, display) {
+function aStarSearch(dungeonString, visible) {
     var width = 56; //default width is 56, may pass as parameter later
     //converts string to a matrix
     var matrix = stringToMatrix(dungeonString, width);
@@ -83,12 +83,12 @@ function aStarSearch(dungeonString, display) {
         if (matrix[currentNode.row][currentNode.col] === '=') {
             // Reconstruct the path
             var pathLength = gScores.get(currentNodeKey) || 0;
-            if (display) {
+            if (visible) {
                 console.log(dungeonString);
                 console.log("Start at: (".concat(start.col, ", ").concat(start.row, ")"));
                 console.log("Path length: ".concat(pathLength));
             }
-            return pathLength;
+            return [pathLength, dungeonString];
         }
         //console.log(currentNodeKey);
         closedList.add(currentNodeKey);
@@ -129,7 +129,7 @@ function aStarSearch(dungeonString, display) {
         }
     }
     // Goal not found
-    return 0;
+    return [0, dungeonString]; //Some bad dungeons won't have a path. Return zero instead of error.
     throw new Error('No path found to the goal');
 }
 exports.aStarSearch = aStarSearch;
