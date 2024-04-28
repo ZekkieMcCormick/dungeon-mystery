@@ -81,10 +81,12 @@ def initialPopulation(populationSize, magnitude):
     for i in range(populationSize):
         genome = {}
         genome["visible"] = 0
+        genome["f_secondary_terrain_generation"] = 1
         genome["room_density"] = randomValue(6,magnitude) #first number comes from default example dungeon
         genome["trap_density"] = randomValue(5,magnitude)
         genome["floor_connectivity"] = randomValue(15,magnitude)
         genome["num_extra_hallways"] = randomValue(10,magnitude)
+        genome["secondary_terrain_density"] = randomValue(5, magnitude)
         genome["maze_room_chance"] = randomValue(100,magnitude)
         genome["merge_rooms_chance"] = randomValue(50,magnitude)
         genome["enemy_density"] = randomValue(4,magnitude)

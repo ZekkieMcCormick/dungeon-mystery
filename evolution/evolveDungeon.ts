@@ -5,7 +5,7 @@ import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, Advance
 function generateDungeonWithParameters(args: string) : [number,string] {
     const genome = JSON.parse(args) as { [key: string]: number }; //convert the dict-string back into a dictionary
 
-    //The dict must always output a number, so the visibility boolean comes through as a number to be converted
+    //The dict must always output a number, so the visibility/secondary terrian generation boolean comes through as a number to be converted
     var visible = false;
     if(genome["visible"] > 0){
         visible = true;
@@ -14,11 +14,16 @@ function generateDungeonWithParameters(args: string) : [number,string] {
     // features to be editted, read from dict
     let floor_props = new FloorProperties();
     floor_props.room_density = genome["room_density"] // 6; 
-    floor_props.trap_density = genome["trap_density"] // 5;
+    floor_props.trap_density = Math.abs(genome["trap_density"]) // 5;
     floor_props.floor_connectivity = Math.abs(genome["floor_connectivity"]) // 15; Crashes when negative
-    floor_props.num_extra_hallways = genome["num_extra_hallways"]// 10;
-    floor_props.maze_room_chance = genome["maze_room_chance"] // 100;
-    floor_props.enemy_density = genome["enemy_density"] // 4
+    floor_props.num_extra_hallways = Math.abs(genome["num_extra_hallways"])// 10;
+    floor_props.maze_room_chance = Math.abs(genome["maze_room_chance"]) // 100;
+    floor_props.enemy_density = genome["enemy_density"] // 4;
+    floor_props.secondary_terrain_density = Math.abs(genome["secondary_terrain_density"]) // 5;
+
+    if(genome["f_secondary_terrain_generation"] > 0){
+        floor_props.room_flags.f_secondary_terrain_generation = true;
+    }
 
     let dungeon = new Dungeon();
 
