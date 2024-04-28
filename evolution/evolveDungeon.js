@@ -7,7 +7,7 @@ function generateDungeonWithParameters(args) {
     var genome = JSON.parse(args); //convert the dict-string back into a dictionary
     // features to be editted, read from dict
     var floor_props = new dungeon_mystery_1.FloorProperties();
-    floor_props.room_density = Math.abs(genome["room_density"]); // 6; 
+    floor_props.room_density = Math.abs(genome["room_density"]) + 1; // 6; Crashes when 0 
     floor_props.trap_density = Math.abs(genome["trap_density"]); // 5;
     floor_props.floor_connectivity = Math.abs(genome["floor_connectivity"]); // 15; Crashes when negative
     floor_props.num_extra_hallways = Math.abs(genome["num_extra_hallways"]); // 10;

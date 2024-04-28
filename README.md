@@ -26,7 +26,7 @@ To evolve a dungeon:
 - Run `python evolution.py`
     - Flags can be set: `python evolution.py -p POPULATION_SIZE -g GENERATION_NUMBER -mu MUTATION_RATE -c CROSSOVER_RATE -t TRIAL_NUMBER -ma MAGNITUDE`
     - The trial number is the amount of times dungeons of a single genome are run and averaged in order to determine fitness score.
-    - Magnitude is the amount the initial population is randomized by. Try to keep below 5 or backend code may crash.
+    - Magnitude is the amount the initial population is randomized by. Try to keep below 2 or backend code has small chance of crashing, 5 has high chance.
 
 To create dungeons without evolving:
  - Follow steps 1-3 above

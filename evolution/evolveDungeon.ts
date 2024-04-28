@@ -4,10 +4,10 @@ import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, Advance
 
 function generateDungeonWithParameters(args: string) : [number,string] {
     const genome = JSON.parse(args) as { [key: string]: number }; //convert the dict-string back into a dictionary
-    
+
     // features to be editted, read from dict
     let floor_props = new FloorProperties();
-    floor_props.room_density = Math.abs(genome["room_density"]) // 6; 
+    floor_props.room_density = Math.abs(genome["room_density"])+1 // 6; Crashes when 0 
     floor_props.trap_density = Math.abs(genome["trap_density"]) // 5;
     floor_props.floor_connectivity = Math.abs(genome["floor_connectivity"]) // 15; Crashes when negative
     floor_props.num_extra_hallways = Math.abs(genome["num_extra_hallways"])// 10;
