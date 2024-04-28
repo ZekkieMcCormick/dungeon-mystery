@@ -13,11 +13,12 @@ function generateDungeonWithParameters(args: string) : [number,string] {
 
     // features to be editted, read from dict
     let floor_props = new FloorProperties();
-    floor_props.room_density = genome["room_density"] // 6; //genome["room_density"]
+    floor_props.room_density = genome["room_density"] // 6; 
     floor_props.trap_density = genome["trap_density"] // 5;
     floor_props.floor_connectivity = Math.abs(genome["floor_connectivity"]) // 15; Crashes when negative
     floor_props.num_extra_hallways = genome["num_extra_hallways"]// 10;
     floor_props.maze_room_chance = genome["maze_room_chance"] // 100;
+    floor_props.enemy_density = genome["enemy_density"] // 4
 
     let dungeon = new Dungeon();
 

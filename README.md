@@ -54,6 +54,16 @@ Evolution Workflow:
     - create the next generation by calling project code found in commonEvolution.py
     - after all generations have completed, call all champions with postEvaluations() to generate dungeons and run A* on them, displaying results
 
+Parameters changed:
+- Certain dungeon parameters are changed with AI
+    - room_density: the number of rooms generated on a floor
+    - trap_density: the number of traps spawned on a floor
+    - floor_connectivity: the number of hallways generated between rooms
+    - num_extra_hallways: the number of extra hallways to be generated
+    - maze_room_chance: the percentage chance for a special wall maze room to be generated
+    - merge_rooms_chance: the percentage chance that 2 rooms merge into one, large room
+    - enemy_density: the number of enemies spawned on a floor
+
 # dungeon-mystery
 
 [![npm](https://img.shields.io/npm/v/dungeon-mystery)](https://www.npmjs.com/package/dungeon-mystery)

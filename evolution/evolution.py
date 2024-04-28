@@ -87,6 +87,7 @@ def initialPopulation(populationSize, magnitude):
         genome["num_extra_hallways"] = randomValue(10,magnitude)
         genome["maze_room_chance"] = randomValue(100,magnitude)
         genome["merge_rooms_chance"] = randomValue(50,magnitude)
+        genome["enemy_density"] = randomValue(4,magnitude)
 
         population.append(genome)
     
