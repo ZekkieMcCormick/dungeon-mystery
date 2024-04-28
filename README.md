@@ -22,11 +22,17 @@ To evolve a dungeon:
     - The trial number is the amount of times dungeons of a single genome are run and averaged in order to determine fitness score.
     - Magnitude is the amount the initial population is randomized by.
 
+To create dungeons without evolving:
+ - Follow steps 1-3 above
+ - Run `node basicDungeon.js`
+ - Output is the average path length for 1000 generated dungeons, no evolution applied 
+
 Files created:
 - ai_functions.ts/js : contains A* function and other useful functions for interpreting dungeon output
 - aStarTest.ts/js : generates a single plain dungeon and runs A* search on it, displaying output
 - call_javascript.py : calls a javascript file from python
 - evolveDungeon.ts/js : takes a dictionary of arguments to appropriately generate a given dungeon and return its fitness function, as defined by A* search
+- basicDungeon.ts/js : creates 1000 basic dungeons and averages their path length. No evolution.
 
 Files added and adapted from previous projects:
 - commonEvolution.py : low-level evolution functions that perform small tasks related to evolution

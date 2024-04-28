@@ -85,9 +85,6 @@ def initialPopulation(populationSize, magnitude):
         genome["trap_density"] = randomValue(5,magnitude)
         genome["floor_connectivity"] = randomValue(15,magnitude)
         genome["num_extra_hallways"] = randomValue(10,magnitude)
-        genome["monster_house_chance"] = randomValue(20,magnitude)
-        genome["secondary_terrain_density"] = randomValue(5,magnitude)
-        genome["secondary_structures_budget"] = randomValue(5,magnitude)
         genome["maze_room_chance"] = randomValue(100,magnitude)
         genome["merge_rooms_chance"] = randomValue(50,magnitude)
 
@@ -108,12 +105,14 @@ def postEvaluations(args, population):
     # Display fitness information from final generation
     finalChampionFitness = max([f for (g,f) in finalPerformanceGenomePairs])
     championGenomes = [g for (g,f) in finalPerformanceGenomePairs if f == finalChampionFitness]
-    if commonEvolution.output: print("Final Champion Training Fitness",finalChampionFitness)
     for genome in championGenomes:
-        genome["visible"] = 1
-        genome_json = json.dumps(genome) #converts dictionary to passable string
-        print(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json, True)) #calls JS file with a*
-        
+        for i in range(args["trials"]):
+            genome["visible"] = 1
+            genome_json = json.dumps(genome) #converts dictionary to passable string
+            print(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json, True)) #calls JS file with a*
+    if commonEvolution.output: print("Final Champion Training Fitness",finalChampionFitness)
+    return championGenomes
+
 def evaluatePopulation(population, **args):
     """
         Evaluate each genome in the population and return
@@ -175,7 +174,7 @@ def main():
     commonEvolution.mutate = commonEvolution.realMutate
     print("Starting evolution")
     population = evolution(args) #Call evolution to start
-    postEvaluations(args, population) #Returns list of champion genomes
+    return postEvaluations(args, population) #Returns list of champion genomes
 
 if __name__ == '__main__':
     print(main())

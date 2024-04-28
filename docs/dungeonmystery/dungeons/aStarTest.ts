@@ -1,20 +1,26 @@
-/*
- * File: test.ts
- * Description: This script generates a dungeon map and finds a path through it using the A* search algorithm for testing purposes.
- *
- * Dependencies:
- *   - dungeon-mystery module 
- *   - ai_functions module (file path: C:/Coding/dungeon-mystery/src/ai_functions)
- */
-
 // Importing necessary modules from external sources
-import { GenerateDungeon, Dungeon, FloorProperties, CreateMapString } from 'dungeon-mystery';
-import { aStarSearch } from 'C:/Coding/dungeon-mystery/evolution/ai_functions'; //ABSOLUTE, YOU WILL NEED TO EDIT TO MATCH OWN PATH
+import { aStarSearch } from 'C:/Coding/dungeon-mystery/evolution/ai_functions.js';
+import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, AdvancedGenerationSettings, CreateMapString, FloorLayout } from 'dungeon-mystery'
 
-// Generating a dungeon map using functions from "dungeon-mystery" module
-const dungeon_map = GenerateDungeon(new FloorProperties(), new Dungeon());
+    let floor_props = new FloorProperties();
+    floor_props.room_density = -2; //genome["room_density"]
+    floor_props.trap_density = -5;
+    //floor_props.floor_connectivity = -2; // 15; Seemingly causing an issue when this value is evolved. CANNOT BE NEGATIVE
+    floor_props.num_extra_hallways = -10;
+    floor_props.room_flags.f_secondary_terrain_generation = true; //Always true
+    floor_props.secondary_terrain_density = -5;
+    floor_props.secondary_structures_budget = -5;
+    floor_props.maze_room_chance = -100;
+
+    let dungeon = new Dungeon();
+
+    let generation_constants = new GenerationConstants();
+    generation_constants.merge_rooms_chance = -50;
+
+    let advanced_generation_settings = new AdvancedGenerationSettings();
+    advanced_generation_settings.allow_wall_maze_room_generation = true;  // Not in dict
+
+    const dungeon_map = GenerateDungeon(floor_props, dungeon, generation_constants, advanced_generation_settings);
 
 // Executing the A* search algorithm on the dungeon string to find a path
-const pathLength = aStarSearch(CreateMapString(dungeon_map), true); //true signifies display is wanted
-
-//callPythonScript('evolution.py');
+    console.log(aStarSearch(CreateMapString(dungeon_map), true)[1]);
