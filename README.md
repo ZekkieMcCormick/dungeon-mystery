@@ -64,11 +64,14 @@ Parameters changed:
 - Certain dungeon parameters are changed with AI
     - room_density: the number of rooms generated on a floor
     - trap_density: the number of traps spawned on a floor
-    - floor_connectivity: the number of hallways generated between rooms
-    - num_extra_hallways: the number of extra hallways to be generated
+    - floor_connectivity: the number of connection hallways on the floor
+        - A connection hallway is the singular, main hallway connection between 2 rooms 
+    - num_extra_hallways: the number of extra hallways attempted to be generated 
     - maze_room_chance: the percentage chance for a special wall maze room to be generated
     - merge_rooms_chance: the percentage chance that 2 rooms merge into one, large room
     - enemy_density: the number of enemies spawned on a floor
+    - secondary_terrain_density: number of standalone lakes of secondary terrain to generate
+        - secondary terrain can be defined as obstacles, such as water or lava, that the player cannot traverse 
 
 # dungeon-mystery
 
