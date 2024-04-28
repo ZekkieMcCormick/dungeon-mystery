@@ -1,4 +1,10 @@
-# AI Project (notes from Pokemon group)
+# AI Dungeon Generation Notes
+This project builds off of Dungeon Mystery, which generates mazes from the Pokemon Mystery Dungeon games randomly. There is the ability to adjust parameters to change the likelihood of certain events, i.e. the generation of a maze room.
+
+Our project aims to maximize the shortest path a given agent with a random start position has to take in order to reach the exit. In other words, our AI evolves with the path length returned from an A* search of the dungeon as its fitness function.
+
+Developed by Joanna Lewis, Zekkie McCormick, Alexa Delenela, and Sera Crayton.
+
 Added dependencies:
 - Python
 - ExecJS
@@ -20,7 +26,7 @@ To evolve a dungeon:
 - Run `python evolution.py`
     - Flags can be set: `python evolution.py -p POPULATION_SIZE -g GENERATION_NUMBER -mu MUTATION_RATE -c CROSSOVER_RATE -t TRIAL_NUMBER -ma MAGNITUDE`
     - The trial number is the amount of times dungeons of a single genome are run and averaged in order to determine fitness score.
-    - Magnitude is the amount the initial population is randomized by.
+    - Magnitude is the amount the initial population is randomized by. Try to keep below 5 or backend code may crash.
 
 To create dungeons without evolving:
  - Follow steps 1-3 above
@@ -32,7 +38,7 @@ Files created:
 - aStarTest.ts/js : generates a single plain dungeon and runs A* search on it, displaying output
 - call_javascript.py : calls a javascript file from python
 - evolveDungeon.ts/js : takes a dictionary of arguments to appropriately generate a given dungeon and return its fitness function, as defined by A* search
-- basicDungeon.ts/js : creates 1000 basic dungeons and averages their path length. No evolution.
+- basicDungeon.ts/js : creates 10000 basic dungeons and averages their path length. No evolution. Typically outputs 25-35.
 
 Files added and adapted from previous projects:
 - commonEvolution.py : low-level evolution functions that perform small tasks related to evolution

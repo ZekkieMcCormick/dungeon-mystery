@@ -24,9 +24,8 @@ import random
 import math
 import commonEvolution
 import call_javascript
-import argparse
 import json
-import os
+import sys
     
 def evolution(args):
     """
@@ -80,8 +79,6 @@ def initialPopulation(populationSize, magnitude):
     population = [] 
     for i in range(populationSize):
         genome = {}
-        genome["visible"] = 0
-        genome["f_secondary_terrain_generation"] = 1
         genome["room_density"] = randomValue(6,magnitude) #first number comes from default example dungeon
         genome["trap_density"] = randomValue(5,magnitude)
         genome["floor_connectivity"] = randomValue(15,magnitude)
@@ -110,7 +107,6 @@ def postEvaluations(args, population):
     championGenomes = [g for (g,f) in finalPerformanceGenomePairs if f == finalChampionFitness]
     for genome in championGenomes:
         for i in range(args["trials"]):
-            genome["visible"] = 1
             genome_json = json.dumps(genome) #converts dictionary to passable string
             print(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json, True)) #calls JS file with a*
     if commonEvolution.output: print("Final Champion Training Fitness",finalChampionFitness)
@@ -138,6 +134,7 @@ def evaluateGenome(genome, **args):
     """
     #TODO: examine further for how this is implemented specifically
     scores = []
+    print(genome) #for testing
     while len(scores) < args['trials']: #runs number of provided trials on single genome
         genome_json = json.dumps(genome) #converts dictionary to passable string
         scores.append(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json)) #calls JS file with a*
@@ -150,30 +147,29 @@ def main():
         Set up and then launch evolution.
     """
     args = {}
-    # Parsing code originates as AI generated
+    #defaults
+    args['populationSize'] = 10
+    args['generations'] = 10
+    args['mutationRate'] = 0.5
+    args['crossoverRate'] = 0.5
+    args['magnitude'] = 10
+    args['trials'] = 1
     # Argument parser
-    parser = argparse.ArgumentParser(description='Script description')
-    # Population flag
-    parser.add_argument('-p', action='store_true', default=10, help='Population Size')
-    # Generations flag
-    parser.add_argument('-g', action='store_true', default=10, help='Generation Number')
-    # Mutation flag
-    parser.add_argument('-mu', action='store_true', default=0.5, help='Mutation Rate')
-    # Crossover flag
-    parser.add_argument('-c', action='store_true', default=0.5, help='Crossover Rate')
-    # Trials flag
-    parser.add_argument('-t', action='store_true', default=10, help='Trials Number')
-    # Magnitude flag
-    parser.add_argument('-ma', action='store_true', default=1, help='Magnitude')
-    # Parse the command-line arguments
-    command_parameters = parser.parse_args()
-
-    args['populationSize'] = command_parameters.p
-    args['generations'] = command_parameters.g
-    args['mutationRate'] = command_parameters.mu
-    args['crossoverRate'] = command_parameters.c
-    args['magnitude'] = command_parameters.ma
-    args['trials'] = command_parameters.t
+    counter = 1
+    for command in sys.argv[1:]:
+        if command == '-p':
+            args['populationSize'] = int(sys.argv[counter+1])
+        elif command == '-g':
+            args['generations'] = int(sys.argv[counter+1])
+        elif command == '-mu':
+            args['mutationRate'] = int(sys.argv[counter+1])
+        elif command == '-c':
+            args['crossoverRate'] = int(sys.argv[counter+1])
+        elif command == '-ma':
+            args['magnitude'] = int(sys.argv[counter+1])
+        elif command == '-t':
+            args['trials'] = int(sys.argv[counter+1])
+        counter+=1
 
     commonEvolution.mutate = commonEvolution.realMutate
     print("Starting evolution")
