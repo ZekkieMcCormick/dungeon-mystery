@@ -11,6 +11,7 @@ function generateDungeonWithParameters(args: string) : [number,string] {
         visible = true;
     }
 
+    // features to be editted, read from dict
     let floor_props = new FloorProperties();
     floor_props.room_density = genome["room_density"] // 6; //genome["room_density"]
     floor_props.trap_density = genome["trap_density"] // 5;
@@ -29,6 +30,6 @@ function generateDungeonWithParameters(args: string) : [number,string] {
     const dungeon_map = GenerateDungeon(floor_props, dungeon, generation_constants, advanced_generation_settings);
 
 // Executing the A* search algorithm on the dungeon string to find a path
-    console.log(CreateMapString(dungeon_map));
+    //console.log(CreateMapString(dungeon_map));
     return aStarSearch(CreateMapString(dungeon_map), visible);
 }

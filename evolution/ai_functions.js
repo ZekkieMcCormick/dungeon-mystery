@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.aStarSearch = void 0;
+// converts dungeon string to matrix[n][m]
 function stringToMatrix(str, n) {
     var matrix = [];
     var filteredStr = str.replace(/[\s\n]/g, ''); // Remove whitespace and newline characters
@@ -38,18 +39,20 @@ function aStarSearch(dungeonString, visible) {
     for (var i = 0; i < rows; i++) {
         for (var j = 0; j < cols; j++) {
             if (matrix[i][j] === 'X') {
-                startingPositions.push({ row: i, col: j }); //push all possible starts into list
+                startingPositions.push({ row: i, col: j }); //push all possible starts into list of nodes
             }
         }
     }
-    var randomIndex = Math.floor(Math.random() * startingPositions.length); //find a random one
+    var randomIndex = Math.floor(Math.random() * startingPositions.length); //find a random starting position from the list
     start = startingPositions[randomIndex]; //set that equal to start
+    // inserts an s into map to signify the start
     var position = (start.row * width + start.col) * 2; //mul by 2 because there are spaces between each char
     //Edit the string to display the start
     var beforeDungeon = dungeonString.substring(0, position);
     var afterDungeon = dungeonString.substring(position + 1);
     dungeonString = beforeDungeon + 'S' + afterDungeon;
     // Define the goal position
+    // goal represented by = sign
     var goal = null;
     for (var i = 0; i < rows; i++) {
         for (var j = 0; j < cols; j++) {
@@ -83,11 +86,13 @@ function aStarSearch(dungeonString, visible) {
         if (matrix[currentNode.row][currentNode.col] === '=') {
             // Reconstruct the path
             var pathLength = gScores.get(currentNodeKey) || 0;
+            // where it returns - does it console.log
             if (visible) {
                 console.log(dungeonString);
                 console.log("Start at: (".concat(start.col, ", ").concat(start.row, ")"));
                 console.log("Path length: ".concat(pathLength));
             }
+            // only the returned values are visible to python
             return [pathLength, dungeonString];
         }
         //console.log(currentNodeKey);

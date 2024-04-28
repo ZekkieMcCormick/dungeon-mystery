@@ -3,7 +3,7 @@
 	"include": ["src", "types", "evolution/ai_functions.js"],
 	"compilerOptions": {
 	  "module": "esnext",
-	  "lib": ["dom", "esnext"],
+		"lib": [ "dom", "esnext", "es2015" ],
 	  "importHelpers": true,
 	  // output .d.ts declaration files for consumers
 	  "declaration": true,

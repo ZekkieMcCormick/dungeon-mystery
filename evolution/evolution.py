@@ -133,6 +133,7 @@ def evaluateGenome(genome, **args):
         the sake of evaluation. The average game score across
         these games is returned as the fitness of the genome.
     """
+    #TODO: examine further for how this is implemented specifically
     scores = []
     while len(scores) < args['trials']: #runs number of provided trials on single genome
         genome_json = json.dumps(genome) #converts dictionary to passable string

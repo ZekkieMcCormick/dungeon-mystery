@@ -1,5 +1,5 @@
 import { GenerateDungeon, Dungeon, FloorProperties, CreateMapString } from 'dungeon-mystery'
-import { aStarSearch } from './ai_functions.ts'; //CHANGE FROM ABSOLUTE TO WORK
+import { aStarSearch } from './ai_functions'; 
 
 const dungeon_map = GenerateDungeon(new FloorProperties(), new Dungeon());
 

@@ -2,3 +2,4 @@ node_modules
 dist
 testing.ts
 .vs
+_pycache_

@@ -1,5 +1,5 @@
-import * as fs from 'fs';
 
+// converts dungeon string to matrix[n][m]
 function stringToMatrix(str: string, n: number): string[][] {
     const matrix: string[][] = [];
     const filteredStr = str.replace(/[\s\n]/g, ''); // Remove whitespace and newline characters
@@ -31,7 +31,7 @@ function stringToMatrix(str: string, n: number): string[][] {
     row: number;
     col: number;
   }
-  
+
   // Define the heuristic function (Manhattan distance)
   function heuristic(node: Node, goal: Node): number {
     return Math.abs(node.row - goal.row) + Math.abs(node.col - goal.col);
@@ -54,13 +54,14 @@ function stringToMatrix(str: string, n: number): string[][] {
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         if (matrix[i][j] === 'X') {
-          startingPositions.push({ row: i, col: j }); //push all possible starts into list
+          startingPositions.push({ row: i, col: j }); //push all possible starts into list of nodes
         }
       }
     }
-    const randomIndex = Math.floor(Math.random() * startingPositions.length); //find a random one
+    const randomIndex = Math.floor(Math.random() * startingPositions.length); //find a random starting position from the list
     start = startingPositions[randomIndex]; //set that equal to start
 
+    // inserts an s into map to signify the start
     const position = (start.row*width+start.col)*2; //mul by 2 because there are spaces between each char
     //Edit the string to display the start
     const beforeDungeon: string = dungeonString.substring(0, position);
@@ -68,6 +69,7 @@ function stringToMatrix(str: string, n: number): string[][] {
     dungeonString = beforeDungeon + 'S' + afterDungeon;
   
     // Define the goal position
+      // goal represented by = sign
     let goal: Node | null = null;
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
@@ -107,13 +109,15 @@ function stringToMatrix(str: string, n: number): string[][] {
       if (matrix[currentNode.row][currentNode.col] === '=') {
         // Reconstruct the path
         const pathLength = gScores.get(currentNodeKey) || 0;
-        
+
+        // where it returns - does it console.log
         if(visible){
           console.log(dungeonString);
           console.log(`Start at: (${start.col}, ${start.row})`);
           console.log(`Path length: ${pathLength}`);
         }
 
+        // only the returned values are visible to python
         return [pathLength,dungeonString];
       }
       //console.log(currentNodeKey);
