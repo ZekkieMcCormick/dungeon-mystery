@@ -45,12 +45,6 @@ function aStarSearch(dungeonString, visible) {
     }
     var randomIndex = Math.floor(Math.random() * startingPositions.length); //find a random starting position from the list
     start = startingPositions[randomIndex]; //set that equal to start
-    // inserts an s into map to signify the start
-    var position = (start.row * width + start.col) * 2; //mul by 2 because there are spaces between each char
-    //Edit the string to display the start
-    var beforeDungeon = dungeonString.substring(0, position);
-    var afterDungeon = dungeonString.substring(position + 1);
-    dungeonString = beforeDungeon + 'S' + afterDungeon;
     // Define the goal position
     // goal represented by = sign
     var goal = null;
@@ -64,8 +58,15 @@ function aStarSearch(dungeonString, visible) {
     }
     if (!start || !goal) {
         // Invalid matrix, no start or goal found
+        return [0, dungeonString]; //return 0 instead of error, sometimes start cannot be placed if dungeon is especially bad
         throw new Error('Invalid matrix: No start or goal found');
     }
+    // inserts an s into map to signify the start
+    var position = (start.row * width + start.col) * 2; //mul by 2 because there are spaces between each char
+    //Edit the string to display the start
+    var beforeDungeon = dungeonString.substring(0, position);
+    var afterDungeon = dungeonString.substring(position + 1);
+    dungeonString = beforeDungeon + 'S' + afterDungeon;
     //console.log(goal);
     //console.log(start);
     // Initialize the open and closed lists

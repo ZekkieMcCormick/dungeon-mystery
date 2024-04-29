@@ -47,6 +47,8 @@ def evolution(args):
     print("Generated initial pop")
     # Evolve for specified number of generations
     for g in range(generations):
+        with open('output.txt', "a") as file:
+            file.write("Starting generation " + str(g) + "\n")
         if commonEvolution.output: print("Starting generation", g)
         # Evaluate all genomes
         performanceGenomePairs = evaluatePopulation(population, **args)
@@ -55,6 +57,8 @@ def evolution(args):
         championFitness = max(justFitnesses)
         averageFitness = sum(justFitnesses) / len(performanceGenomePairs)
         if commonEvolution.output: print("Champion Fitness:", championFitness, ", Average Fitness:", averageFitness)
+        with open('output.txt', "a") as file:
+            file.write("Champion Fitness: " + str(championFitness) + ", Average Fitness: " + str(averageFitness) + "\n")
         # Select next generation
         population = commonEvolution.nextGeneration(performanceGenomePairs,mutationRate,crossoverRate)
 
@@ -121,6 +125,8 @@ def evaluatePopulation(population, **args):
     for x in range(len(population)):
         fitness = evaluateGenome(population[x], **args)
         if commonEvolution.output: print("\tGenome",x,":",fitness)
+        with open('output.txt', "a") as file:
+            file.write("\tGenome " + str(x) + ": " + str(fitness) + "\n")
         performanceGenomePairs.append((population[x],fitness))
     
     return performanceGenomePairs
@@ -132,14 +138,15 @@ def evaluateGenome(genome, **args):
         the sake of evaluation. The average game score across
         these games is returned as the fitness of the genome.
     """
-    #TODO: examine further for how this is implemented specifically
     scores = []
-    print(genome) #for testing
     while len(scores) < args['trials']: #runs number of provided trials on single genome
         genome_json = json.dumps(genome) #converts dictionary to passable string
         scores.append(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json)) #calls JS file with a*
     # Calculate fitness as average score
     fitness = sum(scores) / args['trials']
+    with open('output.txt', "a") as file:
+        file.write(str(genome) + "\n") #clearing for new input
+        file.write(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json, True)) #display example dungeon
     return fitness
 
 def main():    
@@ -158,7 +165,7 @@ def main():
     counter = 1
     for command in sys.argv[1:]:
         if command == '-p':
-            args['populationSize'] = int(sys.argv[counter+1])
+            args['populationSize'] = int(sys.argv[counter+1]) #the number will be one arg further than the flag
         elif command == '-g':
             args['generations'] = int(sys.argv[counter+1])
         elif command == '-mu':
@@ -170,6 +177,9 @@ def main():
         elif command == '-t':
             args['trials'] = int(sys.argv[counter+1])
         counter+=1
+    
+    with open('output.txt', "w") as file:
+        file.write("") #clearing for new input
 
     commonEvolution.mutate = commonEvolution.realMutate
     print("Starting evolution")

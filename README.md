@@ -26,7 +26,7 @@ To evolve a dungeon:
 - Run `python evolution.py`
     - Flags can be set: `python evolution.py -p POPULATION_SIZE -g GENERATION_NUMBER -mu MUTATION_RATE -c CROSSOVER_RATE -t TRIAL_NUMBER -ma MAGNITUDE`
     - The trial number is the amount of times dungeons of a single genome are run and averaged in order to determine fitness score.
-    - Magnitude is the amount the initial population is randomized by. Try to keep below 2 or backend code has small chance of crashing, 5 has high chance.
+    - Magnitude is the amount the initial population is randomized by.
 
 To create dungeons without evolving:
  - Follow steps 1-3 above
@@ -38,7 +38,9 @@ Files created:
 - aStarTest.ts/js : generates a single plain dungeon and runs A* search on it, displaying output
 - call_javascript.py : calls a javascript file from python
 - evolveDungeon.ts/js : takes a dictionary of arguments to appropriately generate a given dungeon and return its fitness function, as defined by A* search
-- basicDungeon.ts/js : creates 10000 basic dungeons and averages their path length. No evolution. Typically outputs 25-35.
+- basicDungeon.ts/js : creates 10000 random dungeons and averages their path length. No evolution. Typically outputs less than 30.
+- output.txt : Appears once a dungeon is evolved. This file contains more information about each step of the evolution that just occured. Resets on each run.
+    - Contains the generation number, the genome number, the parameters passed, and an example dungeon.
 
 Files added and adapted from previous projects:
 - commonEvolution.py : low-level evolution functions that perform small tasks related to evolution

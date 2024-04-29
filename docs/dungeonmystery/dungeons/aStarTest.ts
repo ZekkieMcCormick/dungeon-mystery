@@ -5,7 +5,7 @@ import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, Advance
     let floor_props = new FloorProperties();
     floor_props.room_density = 0; //genome["room_density"]
     floor_props.trap_density = -5;
-    //floor_props.floor_connectivity = -2; // 15; Seemingly causing an issue when this value is evolved. CANNOT BE NEGATIVE
+    floor_props.floor_connectivity = -2; // 15; Seemingly causing an issue when this value is evolved. CANNOT BE NEGATIVE
     floor_props.num_extra_hallways = -10;
     floor_props.room_flags.f_secondary_terrain_generation = true; //Always true
     floor_props.secondary_terrain_density = -5;

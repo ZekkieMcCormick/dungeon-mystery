@@ -1,18 +1,22 @@
 import { GenerateDungeon, Dungeon, FloorProperties, GenerationConstants, AdvancedGenerationSettings, CreateMapString, FloorLayout } from 'dungeon-mystery'
 import { aStarSearch } from './ai_functions'; 
 
+function randomNumber(defaultValue: number): number { //This replicates the randomization done for the initial genomes.
+    return (Math.random() * (2 * defaultValue) - defaultValue)+defaultValue;
+}
+
 let floor_props = new FloorProperties();
 floor_props.layout = FloorLayout.LAYOUT_LARGE;
-floor_props.room_density = 6;
-floor_props.item_density = 5;
-floor_props.enemy_density = 10;
-floor_props.trap_density = 5;
-floor_props.floor_connectivity = 15;
-floor_props.num_extra_hallways = 10;
+floor_props.room_density = randomNumber(6);
+floor_props.item_density = randomNumber(5);
+floor_props.enemy_density = randomNumber(10);
+floor_props.trap_density = randomNumber(5);
+floor_props.floor_connectivity = randomNumber(15);
+floor_props.num_extra_hallways = randomNumber(10);
 floor_props.room_flags.f_secondary_terrain_generation = true;
-floor_props.secondary_terrain_density = 5;
-floor_props.secondary_structures_budget = 5;
-floor_props.maze_room_chance = 100;
+floor_props.secondary_terrain_density = randomNumber(5);
+floor_props.secondary_structures_budget = randomNumber(5);
+floor_props.maze_room_chance = randomNumber(100);
 
 let dungeon = new Dungeon();
 
