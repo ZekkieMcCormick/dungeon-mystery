@@ -114,6 +114,8 @@ def postEvaluations(args, population):
             genome_json = json.dumps(genome) #converts dictionary to passable string
             print(call_javascript.callJavascript('evolveDungeon.js', 'generateDungeonWithParameters', genome_json, True)) #calls JS file with a*
     if commonEvolution.output: print("Final Champion Training Fitness",finalChampionFitness)
+    with open('output.txt', "a") as file:
+            file.write("Final Champion Training Fitness " + str(finalChampionFitness) + "\n")
     return championGenomes
 
 def evaluatePopulation(population, **args):
@@ -160,7 +162,7 @@ def main():
     args['mutationRate'] = 0.5
     args['crossoverRate'] = 0.5
     args['magnitude'] = 10
-    args['trials'] = 1
+    args['trials'] = 10
     # Argument parser
     counter = 1
     for command in sys.argv[1:]:
@@ -178,8 +180,8 @@ def main():
             args['trials'] = int(sys.argv[counter+1])
         counter+=1
     
-    with open('output.txt', "w") as file:
-        file.write("") #clearing for new input
+    #with open('output.txt', "w") as file:
+        #file.write("") #clearing for new input
 
     commonEvolution.mutate = commonEvolution.realMutate
     print("Starting evolution")
