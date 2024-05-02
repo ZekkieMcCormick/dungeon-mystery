@@ -19,7 +19,7 @@ To create a dungeon:
 - Run `node (filename).js`
 
 To evolve a dungeon:
-- Follow steps 1-3 above
+- Follow steps 1-3 above (in 'To Create a Dungeon')
 - Install added dependencies (above)
 - cd into evolution folder
     - Run `cd evolution`
@@ -29,9 +29,9 @@ To evolve a dungeon:
     - Magnitude is the amount the initial population is randomized by.
 
 To create dungeons without evolving:
- - Follow steps 1-3 above
+ - Follow steps 1-3 above (in 'To Evolve a Dungeon')
  - Run `node basicDungeon.js`
- - Output is the average path length for 1000 generated dungeons, no evolution applied 
+ - Output is the average path length for 10000 generated dungeons, no evolution applied 
 
 Files created:
 - ai_functions.ts/js : contains A* function and other useful functions for interpreting dungeon output
