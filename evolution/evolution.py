@@ -180,8 +180,8 @@ def main():
             args['trials'] = int(sys.argv[counter+1])
         counter+=1
     
-    #with open('output.txt', "w") as file:
-        #file.write("") #clearing for new input
+    with open('output.txt', "w") as file:
+        file.write("") #clearing for new input
 
     commonEvolution.mutate = commonEvolution.realMutate
     print("Starting evolution")
